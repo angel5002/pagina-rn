@@ -5,7 +5,8 @@
       "Bash(git commit -m ' *)",
       "PowerShell($runId = \\(Invoke-RestMethod -Uri \"https://api.github.com/repos/angel5002/pagina-rn/actions/runs?per_page=1\" -Headers @{ \"Accept\" = \"application/vnd.github+json\"; \"User-Agent\" = \"claude-code\" }\\).workflow_runs[0].id; Write-Output \"Watching $runId\"; do { Start-Sleep -Seconds 8; $r = Invoke-RestMethod -Uri \"https://api.github.com/repos/angel5002/pagina-rn/actions/runs/$runId\" -Headers @{ \"Accept\" = \"application/vnd.github+json\"; \"User-Agent\" = \"claude-code\" }; Write-Output \"status=$\\($r.status\\) conclusion=$\\($r.conclusion\\)\" } while \\($r.status -ne 'completed'\\); Write-Output \"FINAL: $\\($r.conclusion\\)\")",
       "PowerShell($ua = @{ \"User-Agent\" = \"claude-code\" }; $r1 = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/\" -Headers $ua; Write-Output \"Home logo present: $\\($r1.Content -match 'Universidad_Cientifica_logo'\\)\"; $r2 = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/sobre/\" -Headers $ua; Write-Output \"Sobre hero img present: $\\($r2.Content -match 'Universidad_Cientifica_img_1'\\)\"; Write-Output \"Sobre hero overlay class: $\\($r2.Content -match 'hero-cover__overlay'\\)\"; Write-Output \"Sobre hero title: $\\($r2.Content -match 'hero-cover__title'\\)\")",
-      "Bash(npx astro *)"
+      "Bash(npx astro *)",
+      "WebFetch(domain:open.spotify.com)"
     ]
   }
 }
