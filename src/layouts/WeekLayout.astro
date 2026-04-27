@@ -10,29 +10,28 @@ interface Props {
 }
 
 const { number, title, topic, date, authors = [] } = Astro.props;
+
+const crumbs = [
+  { label: 'Semanas' },
+  { label: number }
+];
 ---
 
-<BaseLayout title={`${title} · Realidad Nacional`} description={topic}>
-  <article>
-    <header class="post-header">
-      <div class="container">
-        <p class="eyebrow post-header__eyebrow">{number} · {topic}</p>
-        <h1 class="post-header__title">{title}</h1>
-        <div class="post-header__meta">
-          <span><strong>Sesión:</strong> {date}</span>
-          {authors.length > 0 && (
-            <span><strong>Equipo:</strong> {authors.join(' · ')}</span>
-          )}
-        </div>
+<BaseLayout title={`${title} · Realidad Nacional`} description={topic} crumbs={crumbs}>
+  <article class="post">
+    <header class="post__header">
+      <p class="post__eyebrow">{number} · {topic}</p>
+      <h1 class="post__title">{title}</h1>
+      <div class="post__meta">
+        <span><strong>Sesión:</strong> {date}</span>
+        {authors.length > 0 && (
+          <span><strong>Equipo:</strong> {authors.join(' · ')}</span>
+        )}
       </div>
     </header>
 
-    <section class="section">
-      <div class="container">
-        <div class="prose">
-          <slot />
-        </div>
-      </div>
-    </section>
+    <div class="prose">
+      <slot />
+    </div>
   </article>
 </BaseLayout>

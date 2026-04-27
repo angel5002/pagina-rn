@@ -1,8 +1,8 @@
-// Airtable design tokens — applied per DESIGN.md
-// CSS custom properties so they are reachable at runtime; SCSS aliases below.
+// Airtable raw tokens + Chirpy-shaped theme variables.
+// The site applies Chirpy's structural classes; the colors come from DESIGN.md.
 
 :root {
-  // Colors — brand & ink
+  // ─── Raw Airtable tokens ────────────────────────────────────────────────
   --color-primary: #181d26;
   --color-primary-active: #0d1218;
   --color-ink: #181d26;
@@ -11,14 +11,12 @@
   --color-hairline: #dddddd;
   --color-border-strong: #9297a0;
 
-  // Surfaces
   --color-canvas: #ffffff;
   --color-surface-soft: #f8fafc;
   --color-surface-strong: #e0e2e6;
   --color-surface-dark: #181d26;
   --color-surface-dark-elevated: #1d1f25;
 
-  // Signature surfaces
   --color-signature-coral: #aa2d00;
   --color-signature-forest: #0a2e0e;
   --color-signature-cream: #f5e9d4;
@@ -27,17 +25,13 @@
   --color-signature-yellow: #f4d35e;
   --color-signature-mustard: #d9a441;
 
-  // On-color text
   --color-on-primary: #ffffff;
   --color-on-dark: #ffffff;
 
-  // Semantic
   --color-link: #1b61c9;
   --color-link-active: #1a3866;
   --color-info: #254fad;
   --color-info-border: #458fff;
-  --color-success: #006400;
-  --color-success-border: #39bf45;
 
   // Typography stacks — Inter Tight is the open substitute for Haas
   --font-display: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont,
@@ -45,7 +39,7 @@
   --font-body: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, sans-serif;
 
-  // Spacing — 4px base
+  // Spacing
   --space-xxs: 4px;
   --space-xs: 8px;
   --space-sm: 12px;
@@ -60,42 +54,110 @@
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 12px;
-  --radius-pill: 9999px;
-  --radius-full: 9999px;
 
-  // Layout
-  --container-max: 1280px;
-  --container-pad-x: 48px;
-  --topbar-height: 64px;
+  // Layout primitives — Chirpy dimensions
+  --sidebar-width: 260px;
+  --sidebar-width-lg: 300px;
+  --topbar-height: 56px;
+  --content-max: 1250px;
+  --rail-width: 240px;
 
   // Motion
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-fast: 180ms;
   --motion-base: 320ms;
   --motion-slow: 560ms;
+
+  // ─── LIGHT theme (default) ──────────────────────────────────────────────
+  --main-bg: var(--color-canvas);
+  --text-color: var(--color-body);
+  --text-muted-color: var(--color-muted);
+  --heading-color: var(--color-ink);
+  --link-color: var(--color-link);
+  --link-hover: var(--color-link-active);
+  --border-color: var(--color-hairline);
+
+  --card-bg: var(--color-canvas);
+  --card-border-color: var(--color-hairline);
+  --card-hover-bg: var(--color-surface-soft);
+  --card-shadow: 0 1px 0 rgba(24, 29, 38, 0.04),
+    0 12px 24px -18px rgba(24, 29, 38, 0.10);
+
+  --sidebar-bg: var(--color-surface-soft);
+  --sidebar-border-color: var(--color-surface-strong);
+  --sidebar-text-color: var(--color-muted);
+  --sidebar-muted-color: var(--color-muted);
+  --site-title-color: var(--color-ink);
+  --site-subtitle-color: var(--color-muted);
+  --sidebar-active-color: var(--color-signature-coral);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.85);
+  --avatar-border-color: var(--color-canvas);
+  --sidebar-btn-bg: var(--color-canvas);
+  --sidebar-btn-color: var(--color-muted);
+
+  --topbar-bg: rgba(255, 255, 255, 0.92);
+  --topbar-text-color: var(--color-ink);
+
+  --tag-bg: var(--color-canvas);
+  --tag-border: var(--color-hairline);
+  --tag-text: var(--color-body);
+  --tag-active-bg: var(--color-signature-coral);
+  --tag-active-text: var(--color-on-primary);
+
+  --inline-code-bg: rgba(24, 29, 38, 0.06);
+  --code-color: var(--color-ink);
+  --blockquote-border: var(--color-ink);
+  --blockquote-bg: var(--color-surface-soft);
+  --blockquote-text: var(--color-ink);
 }
 
-// SCSS aliases for compile-time use
-$color-primary: var(--color-primary);
-$color-ink: var(--color-ink);
-$color-body: var(--color-body);
-$color-muted: var(--color-muted);
-$color-canvas: var(--color-canvas);
-$color-hairline: var(--color-hairline);
-$color-link: var(--color-link);
+// ─── DARK theme ───────────────────────────────────────────────────────────
 
-$space-md: var(--space-md);
-$space-lg: var(--space-lg);
-$space-xl: var(--space-xl);
-$space-xxl: var(--space-xxl);
-$space-section: var(--space-section);
+[data-theme='dark'] {
+  --main-bg: #0d1218;
+  --text-color: rgba(255, 255, 255, 0.80);
+  --text-muted-color: rgba(255, 255, 255, 0.50);
+  --heading-color: #ffffff;
+  --link-color: #6aa9ff;
+  --link-hover: #a0c5ff;
+  --border-color: rgba(255, 255, 255, 0.10);
 
-$radius-md: var(--radius-md);
-$radius-lg: var(--radius-lg);
+  --card-bg: var(--color-surface-dark-elevated);
+  --card-border-color: rgba(255, 255, 255, 0.06);
+  --card-hover-bg: #232732;
+  --card-shadow: none;
 
-$container-max: var(--container-max);
-$container-pad-x: var(--container-pad-x);
+  --sidebar-bg: var(--color-surface-dark);
+  --sidebar-border-color: rgba(255, 255, 255, 0.06);
+  --sidebar-text-color: rgba(255, 255, 255, 0.70);
+  --sidebar-muted-color: rgba(255, 255, 255, 0.45);
+  --site-title-color: #ffffff;
+  --site-subtitle-color: rgba(255, 255, 255, 0.55);
+  --sidebar-active-color: var(--color-signature-peach);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --avatar-border-color: rgba(255, 255, 255, 0.15);
+  --sidebar-btn-bg: rgba(255, 255, 255, 0.04);
+  --sidebar-btn-color: rgba(255, 255, 255, 0.75);
 
-$breakpoint-mobile: 768px;
-$breakpoint-tablet: 1024px;
-$breakpoint-wide: 1440px;
+  --topbar-bg: rgba(13, 18, 24, 0.85);
+  --topbar-text-color: rgba(255, 255, 255, 0.90);
+
+  --tag-bg: rgba(255, 255, 255, 0.06);
+  --tag-border: rgba(255, 255, 255, 0.08);
+  --tag-text: rgba(255, 255, 255, 0.80);
+  --tag-active-bg: var(--color-signature-peach);
+  --tag-active-text: var(--color-ink);
+
+  --inline-code-bg: rgba(255, 255, 255, 0.10);
+  --code-color: #ffffff;
+  --blockquote-border: var(--color-signature-peach);
+  --blockquote-bg: rgba(255, 255, 255, 0.04);
+  --blockquote-text: rgba(255, 255, 255, 0.90);
+}
+
+// SCSS aliases (compile-time) — minimal set we need
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxxl: 1650px;

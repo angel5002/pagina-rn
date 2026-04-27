@@ -1,0 +1,52 @@
+---
+interface Props {
+  crumbs?: { label: string; href?: string }[];
+}
+
+const base = import.meta.env.BASE_URL;
+const home = base.endsWith('/') ? base : `${base}/`;
+
+const { crumbs = [{ label: 'Inicio' }] } = Astro.props;
+---
+
+<div id="topbar">
+  <div class="topbar__inner">
+    <button
+      class="topbar__trigger"
+      type="button"
+      data-sidebar-trigger
+      aria-controls="sidebar"
+      aria-label="Abrir menú"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <nav class="breadcrumb" aria-label="Migas de pan">
+      <a href={home}>Inicio</a>
+      {crumbs.map((c, i) => (
+        <>
+          {i > 0 || crumbs[0].label !== 'Inicio' ? (
+            <span class="breadcrumb__sep" aria-hidden="true">›</span>
+          ) : null}
+          {c.href ? (
+            <a href={c.href}>{c.label}</a>
+          ) : (
+            <span class="breadcrumb__current">{c.label}</span>
+          )}
+        </>
+      ))}
+    </nav>
+
+    <button class="topbar__search" type="button" aria-label="Buscar (próximamente)" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span>Buscar…</span>
+    </button>
+  </div>
+</div>

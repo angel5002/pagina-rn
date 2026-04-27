@@ -1,25 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SignatureCard from '../components/SignatureCard.astro';
-import WeekCard from '../components/WeekCard.astro';
+import PostCard from '../components/PostCard.astro';
 
 const weeks = (await getCollection('weeks')).sort(
   (a, b) => a.data.order - b.data.order
 );
 
 const base = import.meta.env.BASE_URL;
-const weekHref = (id: string) => {
-  const trimmed = base.endsWith('/') ? base.slice(0, -1) : base;
-  return `${trimmed}/semanas/${id}`;
-};
-
-const courseMeta = [
-  { label: 'CÓDIGO', value: 'HUM 204' },
-  { label: 'CICLO', value: '2026‑1' },
-  { label: 'DOCENTE', value: 'Auroni Cenepo Gutiérrez' },
-  { label: 'DEPARTAMENTO', value: 'Cursos Básicos · UCSUR' }
-];
+const trimmed = base.endsWith('/') ? base.slice(0, -1) : base;
+const weekHref = (id: string) => `${trimmed}/semanas/${id}`;
 
 const team = [
   'Abanto Huertas, Leonardo Manuel',
@@ -30,120 +20,42 @@ const team = [
 ---
 
 <BaseLayout title="Realidad Nacional · Blog del curso HUM 204">
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container reveal">
-      <p class="eyebrow hero__eyebrow">HUM 204 · Universidad Científica del Sur · 2026‑1</p>
-      <h1 class="hero__title">El Perú leído semana a semana.</h1>
-      <p class="lead hero__lead">
-        Este es el blog del equipo del curso de Realidad Nacional. Aquí publicamos,
-        sesión a sesión, las lecturas, debates y entregables grupales que recorren
-        los ejes histórico, social, cultural, económico y político del país.
-      </p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#semanas">Ver las semanas</a>
-        <a class="btn btn--secondary" href="#curso">Sobre el curso</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Signature card: módulo actual -->
-  <section class="section-tight" id="modulo">
-    <div class="container">
-      <SignatureCard
-        variant="coral"
-        eyebrow="Módulo en curso"
-        title="Módulo 1 · El Perú y sus orígenes"
-        body="Identificamos información confiable sobre la evolución política, económica y social del Perú durante la formación de la República y sus principales procesos históricos, produciendo nuestras propias reflexiones."
-        ctaLabel="Empezar por la Semana 01"
-        ctaHref={weekHref('semana-01')}
+  <section id="post-list" class="reveal-stagger">
+    {weeks.map((w, i) => (
+      <PostCard
+        href={weekHref(w.id)}
+        title={w.data.title}
+        excerpt={w.data.summary}
+        date={w.data.date}
+        topic={w.data.topic}
+        pinned={i === 0}
       />
-    </div>
+    ))}
   </section>
 
-  <!-- Lista de semanas -->
-  <section class="section" id="semanas">
-    <div class="container">
-      <p class="eyebrow" style="margin-bottom: var(--space-md);">Semanas publicadas</p>
-      <h2 style="margin-bottom: var(--space-xl); max-width: 22ch;">
-        Cuatro sesiones, una lectura del Perú republicano.
-      </h2>
-
-      <div class="week-grid reveal-stagger">
-        {weeks.map((week) => (
-          <WeekCard
-            number={week.data.number}
-            title={week.data.title}
-            date={week.data.date}
-            href={weekHref(week.id)}
-            surface={week.data.surface}
-          />
-        ))}
-      </div>
-    </div>
+  <section id="equipo" class="home-block reveal">
+    <h2 class="home-block__title">Equipo</h2>
+    <p class="home-block__lead">
+      Cuatro lectores escribiendo en abierto las sesiones del curso.
+    </p>
+    <ul class="home-block__list">
+      {team.map((m) => <li>{m}</li>)}
+    </ul>
   </section>
 
-  <!-- Cream callout: equipo -->
-  <section class="section-tight" id="equipo">
-    <div class="container reveal">
-      <div class="cream-callout">
-        <p class="eyebrow" style="margin-bottom: var(--space-sm);">Equipo</p>
-        <h3 class="callout-title">
-          Cuatro lectores, una conversación que se publica en abierto.
-        </h3>
-        <div class="team-grid">
-          {team.map((member) => <p>{member}</p>)}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sobre el curso -->
-  <section class="section" id="curso">
-    <div class="container">
-      <div class="course-grid">
-        <div class="reveal">
-          <p class="eyebrow" style="margin-bottom: var(--space-md);">Sobre el curso</p>
-          <h2 style="margin-bottom: var(--space-md);">
-            Realidad Nacional es un curso teórico que pide tomar postura.
-          </h2>
-          <p style="font-size: 16px; line-height: 1.6; color: var(--color-body);">
-            Su propósito es analizar la realidad peruana a lo largo de su experiencia
-            histórica, comprendiendo el país a través de sus ejes histórico, social,
-            cultural, económico y político. El curso recorre cuatro módulos: Perú y
-            sus orígenes, Perú institucional, Perú económico y social, y la visión
-            de un futuro sostenible.
-          </p>
-        </div>
-        <div class="reveal">
-          <div class="course-meta">
-            {courseMeta.map((row, idx) => (
-              <>
-                {idx > 0 && <hr class="divider" />}
-                <div class="course-meta__row">
-                  <p>{row.label}</p>
-                  <p>{row.value}</p>
-                </div>
-              </>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA banner -->
-  <section class="section-tight">
-    <div class="container reveal">
-      <div class="cta-band-light">
-        <div>
-          <p class="eyebrow" style="margin-bottom: var(--space-sm);">Próxima sesión</p>
-          <h3 style="font-size: 28px; line-height: 1.25; max-width: 24ch; margin: 0;">
-            La Semana 5 trae la primera evaluación continua.
-          </h3>
-        </div>
-        <a class="btn btn--primary" href={weekHref('semana-04')}>Repasar la última semana</a>
-      </div>
-    </div>
+  <section id="curso" class="home-block reveal">
+    <h2 class="home-block__title">Sobre el curso</h2>
+    <p class="home-block__lead">
+      Realidad Nacional (HUM 204) es un curso teórico que recorre el Perú a
+      través de sus ejes histórico, social, cultural, económico y político.
+      Lo dicta Auroni Cenepo Gutiérrez en el ciclo 2026‑1, en la modalidad
+      presencial del Departamento de Cursos Básicos de la UCSUR.
+    </p>
+    <dl class="home-meta">
+      <div><dt>Código</dt><dd>HUM 204</dd></div>
+      <div><dt>Ciclo</dt><dd>2026‑1</dd></div>
+      <div><dt>Docente</dt><dd>Auroni Cenepo Gutiérrez</dd></div>
+      <div><dt>Modalidad</dt><dd>Presencial</dd></div>
+    </dl>
   </section>
 </BaseLayout>
