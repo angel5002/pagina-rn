@@ -32,6 +32,14 @@ const weeks = defineCollection({
             credit: z.string().optional()
           })
         )
+        .optional(),
+      music: z
+        .object({
+          spotify: z.string().optional(),
+          youtube: z.string().optional(),
+          title: z.string().optional(),
+          note: z.string().optional()
+        })
         .optional()
     })
 });

@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Cover from '../components/Cover.astro';
 import Gallery from '../components/Gallery.astro';
+import Music from '../components/Music.astro';
 import { slugify, withBase } from '../lib/paths';
 import type { ImageMetadata } from 'astro:assets';
 
@@ -24,6 +25,12 @@ interface Props {
     caption?: string;
     credit?: string;
   }[];
+  music?: {
+    spotify?: string;
+    youtube?: string;
+    title?: string;
+    note?: string;
+  };
 }
 
 const {
@@ -35,7 +42,8 @@ const {
   tags = [],
   surface = 'canvas',
   cover,
-  gallery
+  gallery,
+  music
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
@@ -68,6 +76,15 @@ const crumbs = [
         </div>
       )}
     </header>
+
+    {music && (
+      <Music
+        spotify={music.spotify}
+        youtube={music.youtube}
+        title={music.title}
+        note={music.note}
+      />
+    )}
 
     <div class="prose">
       <slot />
