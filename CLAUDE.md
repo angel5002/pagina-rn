@@ -58,6 +58,7 @@ Las **PPTs del curso** dan el marco conceptual y los temas oficiales de cada ses
 
 - `informacion_curso/` — PDFs de las diapositivas oficiales del curso (semanas 1 a 4 a la fecha). Sirven como contexto temático.
 - `semanas/semana_N/` — Guías de discusión del equipo (PDF por sesión). **Es el contenido que debe publicarse** en cada post/sección semanal.
+- `src/assets/images/semana-XX/` — Imágenes propias de cada sesión publicada en el sitio (portada y galería). Convención y ejemplos en `src/assets/images/README.md`. Los markdown en `src/content/weeks/` referencian las imágenes desde `cover` y `gallery` en su frontmatter; ambos campos son opcionales — sin ellos, la portada usa un bloque de color signature de Airtable como fallback.
 
 ## Plantilla base y plan de trabajo
 

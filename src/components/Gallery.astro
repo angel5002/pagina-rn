@@ -1,0 +1,40 @@
+---
+import Figure from './Figure.astro';
+import type { ImageMetadata } from 'astro:assets';
+
+interface Item {
+  src: ImageMetadata;
+  alt?: string;
+  caption?: string;
+  credit?: string;
+}
+
+interface Props {
+  items: Item[];
+  heading?: string;
+}
+
+const { items, heading = 'Galería' } = Astro.props;
+
+// Layout variants: 1 → solo (full width), 2 → pair, 3 → asymmetric, 4+ → grid.
+const count = items.length;
+const layout =
+  count === 1 ? 'solo' : count === 2 ? 'pair' : count === 3 ? 'trio' : 'grid';
+---
+
+{count > 0 && (
+  <section class="gallery">
+    <h2 class="gallery__heading">{heading}</h2>
+    <div class={`gallery__grid gallery__grid--${layout}`}>
+      {items.map((item, idx) => (
+        <Figure
+          src={item.src}
+          alt={item.alt}
+          caption={item.caption}
+          credit={item.credit}
+          loading={idx === 0 ? 'lazy' : 'lazy'}
+        />
+      ))}
+    </div>
+  </section>
+)}

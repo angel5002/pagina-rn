@@ -1,5 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Cover from '../components/Cover.astro';
+import Gallery from '../components/Gallery.astro';
+import type { ImageMetadata } from 'astro:assets';
 
 interface Props {
   number: string;
@@ -7,9 +10,30 @@ interface Props {
   topic: string;
   date: string;
   authors?: string[];
+  surface?: 'peach' | 'mint' | 'yellow' | 'mustard' | 'canvas';
+  cover?: {
+    src: ImageMetadata;
+    alt?: string;
+    credit?: string;
+  };
+  gallery?: {
+    src: ImageMetadata;
+    alt?: string;
+    caption?: string;
+    credit?: string;
+  }[];
 }
 
-const { number, title, topic, date, authors = [] } = Astro.props;
+const {
+  number,
+  title,
+  topic,
+  date,
+  authors = [],
+  surface = 'canvas',
+  cover,
+  gallery
+} = Astro.props;
 
 const crumbs = [
   { label: 'Semanas' },
@@ -19,6 +43,8 @@ const crumbs = [
 
 <BaseLayout title={`${title} · Realidad Nacional`} description={topic} crumbs={crumbs}>
   <article class="post">
+    <Cover cover={cover} surface={surface} number={number} topic={topic} variant="hero" />
+
     <header class="post__header">
       <p class="post__eyebrow">{number} · {topic}</p>
       <h1 class="post__title">{title}</h1>
@@ -33,5 +59,9 @@ const crumbs = [
     <div class="prose">
       <slot />
     </div>
+
+    {gallery && gallery.length > 0 && (
+      <Gallery items={gallery} heading="Material visual de la sesión" />
+    )}
   </article>
 </BaseLayout>
