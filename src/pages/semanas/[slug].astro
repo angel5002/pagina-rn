@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import WeekLayout from '../../layouts/WeekLayout.astro';
+
+export async function getStaticPaths() {
+  const weeks = await getCollection('weeks');
+  return weeks.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<WeekLayout
+  number={entry.data.number}
+  title={entry.data.title}
+  topic={entry.data.topic}
+  date={entry.data.date}
+  authors={entry.data.authors}
+>
+  <Content />
+</WeekLayout>

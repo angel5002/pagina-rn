@@ -1,0 +1,20 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  date?: string;
+  href: string;
+  surface?: 'peach' | 'mint' | 'yellow' | 'mustard' | 'canvas';
+}
+
+const { number, title, date, href, surface = 'canvas' } = Astro.props;
+const surfaceClass = surface === 'canvas' ? '' : `week-card--${surface}`;
+---
+
+<a class={`week-card ${surfaceClass}`.trim()} href={href}>
+  <span class="week-card__number">{number}</span>
+  <div>
+    <p class="week-card__title">{title}</p>
+    {date && <p class="week-card__meta">{date}</p>}
+  </div>
+</a>
