@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/varios/Universidad_Cientifica_logo.png';
 import { withBase } from '../lib/paths';
 
 const base = import.meta.env.BASE_URL;
@@ -27,10 +29,15 @@ const navItems = [
 
 <aside id="sidebar" aria-label="Navegación principal">
   <div class="sidebar__profile">
-    <a href={withBase(base, '')} aria-label="Realidad Nacional · Inicio">
-      <div class="sidebar__avatar" aria-hidden="true">
-        <span></span><span></span><span></span><span></span>
-      </div>
+    <a href={withBase(base, '')} class="sidebar__avatar-link" aria-label="Realidad Nacional · Inicio">
+      <span class="sidebar__avatar">
+        <Image
+          src={logo}
+          alt="Universidad Científica del Sur"
+          widths={[176, 220]}
+          sizes="88px"
+        />
+      </span>
     </a>
     <a href={withBase(base, '')} class="sidebar__title">Realidad Nacional</a>
     <p class="sidebar__subtitle">Blog del curso HUM 204 — UCSUR · 2026‑1</p>

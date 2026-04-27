@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($r = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/search-index.json\" -Headers @{ \"User-Agent\" = \"claude-code\" }; $data = $r.Content | ConvertFrom-Json; Write-Output \"Entries: $\\($data.entries.Count\\)\"; Write-Output \"First URL: $\\($data.entries[0].url\\)\"; Write-Output \"\"; $r2 = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/tags/castilla/\" -Headers @{ \"User-Agent\" = \"claude-code\" }; if \\($r2.Content -match '#Castilla'\\) { Write-Output \"Tag page header: ok\" } else { Write-Output \"Tag page header: missing\" }; if \\($r2.Content -match 'data-search-input'\\) { Write-Output \"Search input present: yes\" })",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}

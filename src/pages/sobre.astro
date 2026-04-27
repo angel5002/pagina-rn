@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import campus from '../assets/images/varios/Universidad_Cientifica_img_1.png';
 
 const meta = [
   { label: 'Código', value: 'HUM 204' },
@@ -47,15 +49,27 @@ const evals = [
   description="Información general del curso HUM 204 — Realidad Nacional."
   crumbs={[{ label: 'Sobre el curso' }]}
 >
-  <header class="page-header">
-    <p class="page-header__eyebrow">Sobre el curso</p>
-    <h1 class="page-header__title">Realidad Nacional</h1>
-    <p class="page-header__lead">
-      Curso teórico que analiza la realidad peruana a lo largo de su experiencia
-      histórica, recorriendo los ejes histórico, social, cultural, económico y
-      político del país.
-    </p>
-  </header>
+  <section class="hero-cover" aria-labelledby="hero-cover-title">
+    <Image
+      src={campus}
+      alt="Campus de la Universidad Científica del Sur"
+      widths={[640, 960, 1280, 1600, 1920]}
+      sizes="(min-width: 1200px) 1080px, 92vw"
+      loading="eager"
+      decoding="async"
+      class="hero-cover__img"
+    />
+    <div class="hero-cover__overlay" aria-hidden="true"></div>
+    <div class="hero-cover__text">
+      <p class="hero-cover__eyebrow">Sobre el curso</p>
+      <h1 id="hero-cover-title" class="hero-cover__title">Realidad Nacional</h1>
+      <p class="hero-cover__lead">
+        HUM 204 · Universidad Científica del Sur · Ciclo 2026‑1.
+        Curso teórico que recorre el Perú a través de sus ejes histórico,
+        social, cultural, económico y político.
+      </p>
+    </div>
+  </section>
 
   <section class="info-section">
     <h2 class="info-section__title">Información del curso</h2>
