@@ -1,12 +1,22 @@
 ---
-interface Props {
-  crumbs?: { label: string; href?: string }[];
+import { withBase } from '../lib/paths';
+
+interface Crumb {
+  label: string;
+  href?: string;
 }
 
-const base = import.meta.env.BASE_URL;
-const home = base.endsWith('/') ? base : `${base}/`;
+interface Props {
+  crumbs?: Crumb[];
+}
 
-const { crumbs = [{ label: 'Inicio' }] } = Astro.props;
+const { crumbs = [] } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const home = withBase(base, '');
+const searchEndpoint = withBase(base, 'search-index.json');
+
+const isHome = crumbs.length === 0 ||
+  (crumbs.length === 1 && crumbs[0].label.toLowerCase() === 'inicio');
 ---
 
 <div id="topbar">
@@ -26,27 +36,52 @@ const { crumbs = [{ label: 'Inicio' }] } = Astro.props;
     </button>
 
     <nav class="breadcrumb" aria-label="Migas de pan">
-      <a href={home}>Inicio</a>
-      {crumbs.map((c, i) => (
+      {isHome ? (
+        <span class="breadcrumb__current">Inicio</span>
+      ) : (
         <>
-          {i > 0 || crumbs[0].label !== 'Inicio' ? (
-            <span class="breadcrumb__sep" aria-hidden="true">›</span>
-          ) : null}
-          {c.href ? (
-            <a href={c.href}>{c.label}</a>
-          ) : (
-            <span class="breadcrumb__current">{c.label}</span>
-          )}
+          <a href={home}>Inicio</a>
+          {crumbs.map((c, idx) => (
+            <>
+              <span class="breadcrumb__sep" aria-hidden="true">›</span>
+              {c.href && idx < crumbs.length - 1 ? (
+                <a href={c.href}>{c.label}</a>
+              ) : (
+                <span class="breadcrumb__current">{c.label}</span>
+              )}
+            </>
+          ))}
         </>
-      ))}
+      )}
     </nav>
 
-    <button class="topbar__search" type="button" aria-label="Buscar (próximamente)" disabled>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <span>Buscar…</span>
-    </button>
+    <div class="search" data-search-root data-search-endpoint={searchEndpoint}>
+      <label class="search__field" for="site-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          id="site-search"
+          type="search"
+          placeholder="Buscar…"
+          autocomplete="off"
+          spellcheck="false"
+          data-search-input
+          aria-controls="search-results"
+          aria-expanded="false"
+          aria-autocomplete="list"
+          role="combobox"
+        />
+        <kbd class="search__kbd" aria-hidden="true">/</kbd>
+      </label>
+      <div
+        id="search-results"
+        class="search__panel"
+        role="listbox"
+        data-search-panel
+        hidden
+      ></div>
+    </div>
   </div>
 </div>

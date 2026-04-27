@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { withBase } from '../../lib/paths';
+
+const weeks = (await getCollection('weeks')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="Semanas · Realidad Nacional"
+  description="Archivo de todas las sesiones publicadas del curso."
+  crumbs={[{ label: 'Semanas' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Archivo</p>
+    <h1 class="page-header__title">Todas las semanas</h1>
+    <p class="page-header__lead">
+      {weeks.length} {weeks.length === 1 ? 'sesión publicada' : 'sesiones publicadas'} hasta hoy.
+      Listadas en orden cronológico del curso.
+    </p>
+  </header>
+
+  <section id="post-list" class="reveal-stagger">
+    {weeks.map((w, i) => (
+      <PostCard
+        href={withBase(base, `semanas/${w.id}`)}
+        title={w.data.title}
+        excerpt={w.data.summary}
+        date={w.data.date}
+        topic={w.data.topic}
+        number={w.data.number}
+        surface={w.data.surface}
+        cover={w.data.cover}
+        pinned={i === 0}
+      />
+    ))}
+  </section>
+</BaseLayout>

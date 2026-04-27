@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { slugify, withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const weeks = await getCollection('weeks');
+  const map = new Map<
+    string,
+    { label: string; items: typeof weeks }
+  >();
+  for (const w of weeks) {
+    for (const tag of w.data.tags ?? []) {
+      const slug = slugify(tag);
+      if (!slug) continue;
+      const existing = map.get(slug);
+      if (existing) existing.items.push(w);
+      else map.set(slug, { label: tag, items: [w] });
+    }
+  }
+  return Array.from(map.entries()).map(([slug, info]) => ({
+    params: { tag: slug },
+    props: { label: info.label, items: info.items }
+  }));
+}
+
+const { label, items } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const sorted = [...items].sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title={`#${label} · Realidad Nacional`}
+  description={`Semanas etiquetadas con "${label}".`}
+  crumbs={[
+    { label: 'Etiquetas', href: withBase(base, 'tags') },
+    { label }
+  ]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Etiqueta</p>
+    <h1 class="page-header__title">#{label}</h1>
+    <p class="page-header__lead">
+      {sorted.length} {sorted.length === 1 ? 'semana' : 'semanas'} con esta etiqueta.
+    </p>
+  </header>
+
+  <section id="post-list" class="reveal-stagger">
+    {sorted.map((w, i) => (
+      <PostCard
+        href={withBase(base, `semanas/${w.id}`)}
+        title={w.data.title}
+        excerpt={w.data.summary}
+        date={w.data.date}
+        topic={w.data.topic}
+        number={w.data.number}
+        surface={w.data.surface}
+        cover={w.data.cover}
+        pinned={i === 0}
+      />
+    ))}
+  </section>
+</BaseLayout>

@@ -11,6 +11,12 @@ authors:
   - Lopez Chambillo, Gabriela
   - Vargas Flores, Angel
   - Vergara Carpio, Grecia
+tags:
+  - Módulo 1
+  - Terrorismo
+  - CVR
+  - Memoria
+  - Derechos Humanos
 ---
 
 ## Pregunta que abre la sesión

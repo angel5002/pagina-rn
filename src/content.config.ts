@@ -15,6 +15,7 @@ const weeks = defineCollection({
         .enum(['peach', 'mint', 'yellow', 'mustard', 'canvas'])
         .default('canvas'),
       authors: z.array(z.string()).default([]),
+      tags: z.array(z.string()).default([]),
       cover: z
         .object({
           src: image(),

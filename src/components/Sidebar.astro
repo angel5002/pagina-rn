@@ -1,44 +1,44 @@
 ---
+import { withBase } from '../lib/paths';
+
 const base = import.meta.env.BASE_URL;
-const link = (path: string) => {
-  const trimmed = base.endsWith('/') ? base.slice(0, -1) : base;
-  if (path === '' || path === '/') return `${trimmed}/`;
-  return `${trimmed}/${path.replace(/^\//, '')}`;
-};
+const baseTrim = base.endsWith('/') ? base.slice(0, -1) : base;
+const current = (Astro.url.pathname.replace(/\/+$/, '') || '/').toLowerCase();
 
-const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const baseTrim = (base.endsWith('/') ? base.slice(0, -1) : base) || '';
-
-function isActive(target: string): boolean {
-  // target is like 'semanas' or '' (home)
-  if (target === '') {
-    return current === baseTrim || current === `${baseTrim}/` || current === '/';
+function isActive(targetPath: string): boolean {
+  // targetPath uses no trailing slash; '' means home.
+  const target = targetPath
+    ? `${baseTrim}/${targetPath}`.toLowerCase()
+    : `${baseTrim}` || '/';
+  if (target === '' || target === '/') {
+    return current === '/' || current === baseTrim.toLowerCase();
   }
-  return current.startsWith(`${baseTrim}/${target}`);
+  return current === target || current.startsWith(`${target}/`);
 }
 
 const navItems = [
-  { key: '',         label: 'Inicio',         href: link(''),                icon: 'home' },
-  { key: 'semanas',  label: 'Semanas',        href: `${link('')}#post-list`, icon: 'list' },
-  { key: 'equipo',   label: 'Equipo',         href: `${link('')}#equipo`,    icon: 'users' },
-  { key: 'curso',    label: 'Sobre el curso', href: `${link('')}#curso`,     icon: 'info' }
+  { key: 'home',    label: 'Inicio',         href: withBase(base, ''),        target: '',         icon: 'home' },
+  { key: 'semanas', label: 'Semanas',        href: withBase(base, 'semanas'), target: 'semanas',  icon: 'list' },
+  { key: 'tags',    label: 'Etiquetas',      href: withBase(base, 'tags'),    target: 'tags',     icon: 'tag' },
+  { key: 'equipo',  label: 'Equipo',         href: withBase(base, 'equipo'),  target: 'equipo',   icon: 'users' },
+  { key: 'sobre',   label: 'Sobre el curso', href: withBase(base, 'sobre'),   target: 'sobre',    icon: 'info' }
 ];
 ---
 
 <aside id="sidebar" aria-label="Navegación principal">
   <div class="sidebar__profile">
-    <a href={link('')} aria-label="Realidad Nacional · Inicio">
+    <a href={withBase(base, '')} aria-label="Realidad Nacional · Inicio">
       <div class="sidebar__avatar" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
     </a>
-    <a href={link('')} class="sidebar__title">Realidad Nacional</a>
+    <a href={withBase(base, '')} class="sidebar__title">Realidad Nacional</a>
     <p class="sidebar__subtitle">Blog del curso HUM 204 — UCSUR · 2026‑1</p>
   </div>
 
   <ul class="sidebar__nav">
     {navItems.map((item) => (
-      <li class:list={[{ 'is-active': isActive(item.key) }]}>
+      <li class:list={[{ 'is-active': isActive(item.target) }]}>
         <a href={item.href}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             {item.icon === 'home' && (
@@ -57,10 +57,10 @@ const navItems = [
                 <circle cx="4" cy="18" r="1"></circle>
               </>
             )}
-            {item.icon === 'layers' && (
+            {item.icon === 'tag' && (
               <>
-                <polygon points="12 2 22 8 12 14 2 8 12 2"></polygon>
-                <polyline points="2 14 12 20 22 14"></polyline>
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </>
             )}
             {item.icon === 'users' && (

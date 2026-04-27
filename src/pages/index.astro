@@ -2,28 +2,20 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import { withBase } from '../lib/paths';
 
 const weeks = (await getCollection('weeks')).sort(
   (a, b) => a.data.order - b.data.order
 );
 
 const base = import.meta.env.BASE_URL;
-const trimmed = base.endsWith('/') ? base.slice(0, -1) : base;
-const weekHref = (id: string) => `${trimmed}/semanas/${id}`;
-
-const team = [
-  'Abanto Huertas, Leonardo Manuel',
-  'Lopez Chambillo, Gabriela Nicol',
-  'Vargas Flores, Angel Jaime',
-  'Vergara Carpio, Grecia Hadid'
-];
 ---
 
 <BaseLayout title="Realidad Nacional · Blog del curso HUM 204">
   <section id="post-list" class="reveal-stagger">
     {weeks.map((w, i) => (
       <PostCard
-        href={weekHref(w.id)}
+        href={withBase(base, `semanas/${w.id}`)}
         title={w.data.title}
         excerpt={w.data.summary}
         date={w.data.date}
@@ -34,31 +26,5 @@ const team = [
         pinned={i === 0}
       />
     ))}
-  </section>
-
-  <section id="equipo" class="home-block reveal">
-    <h2 class="home-block__title">Equipo</h2>
-    <p class="home-block__lead">
-      Cuatro lectores escribiendo en abierto las sesiones del curso.
-    </p>
-    <ul class="home-block__list">
-      {team.map((m) => <li>{m}</li>)}
-    </ul>
-  </section>
-
-  <section id="curso" class="home-block reveal">
-    <h2 class="home-block__title">Sobre el curso</h2>
-    <p class="home-block__lead">
-      Realidad Nacional (HUM 204) es un curso teórico que recorre el Perú a
-      través de sus ejes histórico, social, cultural, económico y político.
-      Lo dicta Auroni Cenepo Gutiérrez en el ciclo 2026‑1, en la modalidad
-      presencial del Departamento de Cursos Básicos de la UCSUR.
-    </p>
-    <dl class="home-meta">
-      <div><dt>Código</dt><dd>HUM 204</dd></div>
-      <div><dt>Ciclo</dt><dd>2026‑1</dd></div>
-      <div><dt>Docente</dt><dd>Auroni Cenepo Gutiérrez</dd></div>
-      <div><dt>Modalidad</dt><dd>Presencial</dd></div>
-    </dl>
   </section>
 </BaseLayout>

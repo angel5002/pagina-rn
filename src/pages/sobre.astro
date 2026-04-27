@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const meta = [
+  { label: 'Código', value: 'HUM 204' },
+  { label: 'Ciclo', value: '2026‑1' },
+  { label: 'Modalidad', value: 'Presencial' },
+  { label: 'Docente', value: 'Auroni Cenepo Gutiérrez' },
+  { label: 'Departamento', value: 'Cursos Básicos · UCSUR' }
+];
+
+const modules = [
+  {
+    n: 'Módulo 1',
+    title: 'El Perú y sus orígenes',
+    body: 'Evolución política, económica y social en la formación de la República y sus principales procesos históricos.'
+  },
+  {
+    n: 'Módulo 2',
+    title: 'El Perú institucional',
+    body: 'Organización del Estado, marco normativo y organizaciones representativas de la sociedad.'
+  },
+  {
+    n: 'Módulo 3',
+    title: 'El Perú en lo económico y social',
+    body: 'Situación socioeconómica del país y propuestas que contribuyan a mejorar la vida ciudadana.'
+  },
+  {
+    n: 'Módulo 4',
+    title: 'Visión de país hacia un futuro sostenible',
+    body: 'Retos pendientes para el desarrollo del Perú en el entorno global.'
+  }
+];
+
+const evals = [
+  ['ED', 'Cuestionario diagnóstico', 'Semana 2', '0 %'],
+  ['EC1', 'Sustentación de video', 'Semana 5', '18 %'],
+  ['EP', 'Evaluación parcial', 'Semana 8', '20 %'],
+  ['EC2', 'Sustentación de foro', 'Semana 12', '18 %'],
+  ['EC3', 'Sustentación de megazord', 'Semana 15', '19 %'],
+  ['EF', 'Evaluación final', 'Semana 16', '25 %']
+];
+---
+
+<BaseLayout
+  title="Sobre el curso · Realidad Nacional"
+  description="Información general del curso HUM 204 — Realidad Nacional."
+  crumbs={[{ label: 'Sobre el curso' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Sobre el curso</p>
+    <h1 class="page-header__title">Realidad Nacional</h1>
+    <p class="page-header__lead">
+      Curso teórico que analiza la realidad peruana a lo largo de su experiencia
+      histórica, recorriendo los ejes histórico, social, cultural, económico y
+      político del país.
+    </p>
+  </header>
+
+  <section class="info-section">
+    <h2 class="info-section__title">Información del curso</h2>
+    <dl class="home-meta">
+      {meta.map((row) => (
+        <div>
+          <dt>{row.label}</dt>
+          <dd>{row.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="info-section">
+    <h2 class="info-section__title">Módulos</h2>
+    <div class="module-grid">
+      {modules.map((m) => (
+        <article class="module-card">
+          <p class="module-card__eyebrow">{m.n}</p>
+          <p class="module-card__title">{m.title}</p>
+          <p class="module-card__body">{m.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2 class="info-section__title">Evaluaciones</h2>
+    <div class="eval-table">
+      <div class="eval-table__row eval-table__row--head">
+        <span>Cód.</span>
+        <span>Detalle</span>
+        <span>Semana</span>
+        <span>Peso</span>
+      </div>
+      {evals.map((row) => (
+        <div class="eval-table__row">
+          <span>{row[0]}</span>
+          <span>{row[1]}</span>
+          <span>{row[2]}</span>
+          <span>{row[3]}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

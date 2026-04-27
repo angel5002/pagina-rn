@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const team = [
+  {
+    name: 'Abanto Huertas, Leonardo Manuel',
+    role: 'Análisis histórico y ensayo argumentativo'
+  },
+  {
+    name: 'Lopez Chambillo, Gabriela Nicol',
+    role: 'Investigación documental y crítica social'
+  },
+  {
+    name: 'Vargas Flores, Angel Jaime',
+    role: 'Curaduría editorial y edición del blog'
+  },
+  {
+    name: 'Vergara Carpio, Grecia Hadid',
+    role: 'Lectura jurídica y verificación de fuentes'
+  }
+];
+---
+
+<BaseLayout
+  title="Equipo · Realidad Nacional"
+  description="Integrantes del grupo del curso de Realidad Nacional."
+  crumbs={[{ label: 'Equipo' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Equipo</p>
+    <h1 class="page-header__title">Quiénes escriben este blog</h1>
+    <p class="page-header__lead">
+      Cuatro estudiantes del curso HUM 204 documentando, sesión a sesión, las
+      lecturas y debates del semestre.
+    </p>
+  </header>
+
+  <section class="team-cards reveal-stagger">
+    {team.map((m) => (
+      <article class="team-card">
+        <div class="team-card__avatar" aria-hidden="true">
+          <span>{m.name.split(',')[1]?.trim().split(' ')[0]?.[0] ?? '·'}</span>
+          <span>{m.name.split(',')[0]?.[0] ?? '·'}</span>
+        </div>
+        <p class="team-card__name">{m.name}</p>
+        <p class="team-card__role">{m.role}</p>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

@@ -11,6 +11,12 @@ authors:
   - Lopez Chambillo, Gabriela
   - Vargas Flores, Angel
   - Vergara Carpio, Grecia
+tags:
+  - Módulo 1
+  - Democracia
+  - Autoritarismo
+  - Fujimori
+  - Constitución
 ---
 
 ## Pregunta que abre la sesión

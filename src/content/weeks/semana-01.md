@@ -11,6 +11,12 @@ authors:
   - Lopez Chambillo, Gabriela
   - Vargas Flores, Angel
   - Vergara Carpio, Grecia
+tags:
+  - Módulo 1
+  - República
+  - Castilla
+  - Indígenas
+  - Avance
 ---
 
 ## Reflexión desde la experiencia

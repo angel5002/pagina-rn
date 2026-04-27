@@ -1,25 +1,28 @@
 ---
 import { getCollection } from 'astro:content';
+import { slugify, withBase } from '../lib/paths';
 
 const base = import.meta.env.BASE_URL;
-const trimmed = base.endsWith('/') ? base.slice(0, -1) : base;
-const weekHref = (id: string) => `${trimmed}/semanas/${id}`;
 
 const weeks = (await getCollection('weeks')).sort(
   (a, b) => b.data.order - a.data.order
 );
-const recent = weeks.slice(0, 4);
+const recent = weeks.slice(0, 5);
 
-const tags = [
-  'Módulo 1',
-  'República',
-  'Democracia',
-  'Economía',
-  'Memoria',
-  'CVR',
-  'Derechos',
-  'Castilla'
-];
+const counts = new Map<string, { label: string; count: number }>();
+for (const w of weeks) {
+  for (const tag of w.data.tags ?? []) {
+    const slug = slugify(tag);
+    if (!slug) continue;
+    const existing = counts.get(slug);
+    if (existing) existing.count += 1;
+    else counts.set(slug, { label: tag, count: 1 });
+  }
+}
+const tags = Array.from(counts.entries())
+  .map(([slug, info]) => ({ slug, ...info }))
+  .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+  .slice(0, 10);
 ---
 
 <aside class="right-rail" aria-label="Información complementaria">
@@ -28,7 +31,7 @@ const tags = [
     <ul class="rail__list">
       {recent.map((w) => (
         <li>
-          <a href={weekHref(w.id)}>{w.data.title}</a>
+          <a href={withBase(base, `semanas/${w.id}`)}>{w.data.title}</a>
         </li>
       ))}
     </ul>
@@ -38,17 +41,22 @@ const tags = [
     <h3 class="rail__heading">Etiquetas</h3>
     <div class="tag-cloud">
       {tags.map((t) => (
-        <span class="tag-pill">{t}</span>
+        <a class="tag-pill" href={withBase(base, `tags/${t.slug}`)}>
+          <span>{t.label}</span>
+        </a>
       ))}
     </div>
+    <p class="rail__more">
+      <a href={withBase(base, 'tags')}>Ver todas →</a>
+    </p>
   </section>
 
   <section class="rail__section">
     <h3 class="rail__heading">El curso</h3>
-    <ul class="rail__list">
-      <li><span style="color: var(--text-muted-color);">Realidad Nacional</span></li>
-      <li><span style="color: var(--text-muted-color);">HUM 204 · 2026‑1</span></li>
-      <li><span style="color: var(--text-muted-color);">UCSUR · Cursos Básicos</span></li>
+    <ul class="rail__list rail__list--muted">
+      <li>Realidad Nacional</li>
+      <li>HUM 204 · 2026‑1</li>
+      <li>UCSUR · Cursos Básicos</li>
     </ul>
   </section>
 </aside>
