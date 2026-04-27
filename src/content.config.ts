@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const weeks = defineCollection({
-  loader: glob({ base: 'src/content/weeks', pattern: '**/*.md' }),
+  loader: glob({ base: 'src/content/weeks', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) =>
     z.object({
       number: z.string(),

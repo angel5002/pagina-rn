@@ -760,6 +760,30 @@ code {
   aspect-ratio: 21 / 9;
   border-radius: var(--radius-lg);
   border: 1px solid var(--card-border-color);
+  animation: cover-hero-rise 900ms var(--ease-out-soft) both;
+}
+
+.cover--hero .cover__img {
+  animation: cover-hero-img 1.4s var(--ease-out-soft) both;
+}
+
+@keyframes cover-hero-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cover-hero-img {
+  from { transform: scale(1.05); opacity: 0.6; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover--hero,
+  .cover--hero .cover__img {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 .cover--card {
@@ -1485,6 +1509,106 @@ code {
   color: var(--link-color);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+// ─── Music player (Spotify / YouTube embed) ───────────────────────────────
+
+.music {
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.music__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.music__icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-signature-coral);
+  color: var(--color-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme='dark'] .music__icon {
+  background: var(--color-signature-peach);
+  color: var(--color-ink);
+}
+
+.music__icon svg { width: 18px; height: 18px; }
+
+.music__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.music__eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16px;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
+.music__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--heading-color);
+}
+
+.music__note {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted-color);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.music__frame {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--card-hover-bg);
+}
+
+.music__frame iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.music__frame--spotify iframe {
+  // height set inline by component
+  border-radius: 12px;
+}
+
+.music__frame--youtube {
+  aspect-ratio: 16 / 9;
+}
+
+.music__frame--youtube iframe {
+  width: 100%;
+  height: 100%;
 }
 
 // ─── Mobile drawer scrim ───────────────────────────────────────────────────

@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "PowerShell($r = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/search-index.json\" -Headers @{ \"User-Agent\" = \"claude-code\" }; $data = $r.Content | ConvertFrom-Json; Write-Output \"Entries: $\\($data.entries.Count\\)\"; Write-Output \"First URL: $\\($data.entries[0].url\\)\"; Write-Output \"\"; $r2 = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/tags/castilla/\" -Headers @{ \"User-Agent\" = \"claude-code\" }; if \\($r2.Content -match '#Castilla'\\) { Write-Output \"Tag page header: ok\" } else { Write-Output \"Tag page header: missing\" }; if \\($r2.Content -match 'data-search-input'\\) { Write-Output \"Search input present: yes\" })",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "PowerShell($runId = \\(Invoke-RestMethod -Uri \"https://api.github.com/repos/angel5002/pagina-rn/actions/runs?per_page=1\" -Headers @{ \"Accept\" = \"application/vnd.github+json\"; \"User-Agent\" = \"claude-code\" }\\).workflow_runs[0].id; Write-Output \"Watching $runId\"; do { Start-Sleep -Seconds 8; $r = Invoke-RestMethod -Uri \"https://api.github.com/repos/angel5002/pagina-rn/actions/runs/$runId\" -Headers @{ \"Accept\" = \"application/vnd.github+json\"; \"User-Agent\" = \"claude-code\" }; Write-Output \"status=$\\($r.status\\) conclusion=$\\($r.conclusion\\)\" } while \\($r.status -ne 'completed'\\); Write-Output \"FINAL: $\\($r.conclusion\\)\")",
+      "PowerShell($ua = @{ \"User-Agent\" = \"claude-code\" }; $r1 = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/\" -Headers $ua; Write-Output \"Home logo present: $\\($r1.Content -match 'Universidad_Cientifica_logo'\\)\"; $r2 = Invoke-WebRequest -Uri \"https://angel5002.github.io/pagina-rn/sobre/\" -Headers $ua; Write-Output \"Sobre hero img present: $\\($r2.Content -match 'Universidad_Cientifica_img_1'\\)\"; Write-Output \"Sobre hero overlay class: $\\($r2.Content -match 'hero-cover__overlay'\\)\"; Write-Output \"Sobre hero title: $\\($r2.Content -match 'hero-cover__title'\\)\")",
+      "Bash(npx astro *)"
     ]
   }
 }
