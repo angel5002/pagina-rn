@@ -170,6 +170,10 @@ code {
 
 .sidebar__avatar-link:hover { transform: rotate(-3deg) scale(1.02); }
 
+.sidebar__avatar-link:active {
+  transform: rotate(-1deg) scale(0.98);
+}
+
 .sidebar__avatar {
   display: flex;
   align-items: center;
@@ -246,6 +250,11 @@ code {
   transform: translateX(2px);
 }
 
+.sidebar__nav a:active {
+  transform: translateX(2px) scale(0.985);
+  background: var(--sidebar-hover-bg);
+}
+
 .sidebar__nav a svg {
   width: 16px;
   height: 16px;
@@ -298,8 +307,10 @@ code {
 }
 
 .sidebar__icon-btn:active {
-  transform: translateY(0) scale(1);
-  transition-duration: 120ms;
+  transform: translateY(1px) scale(0.96);
+  background: var(--sidebar-hover-bg);
+  box-shadow: var(--sidebar-border-color) 0 0 0 1px,
+    inset 0 2px 6px rgba(13, 18, 24, 0.18);
 }
 
 .sidebar__icon-btn svg { width: 14px; height: 14px; }
@@ -366,7 +377,18 @@ code {
   color: var(--topbar-text-color);
 }
 
+.topbar__trigger {
+  transition:
+    background-color 280ms var(--ease-out-soft),
+    transform 220ms var(--ease-out-soft);
+}
+
 .topbar__trigger:hover { background: var(--card-hover-bg); }
+
+.topbar__trigger:active {
+  transform: scale(0.92);
+  background: var(--card-hover-bg);
+}
 
 @media (min-width: 1024px) {
   .topbar__trigger { display: none; }
@@ -505,6 +527,10 @@ code {
 .search__result.is-active,
 .search__result:hover {
   transform: translateX(2px);
+}
+
+.search__result:active {
+  transform: translateX(2px) scale(0.985);
 }
 
 .search__empty {
@@ -700,6 +726,11 @@ code {
   box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.55);
 }
 
+.tag-pill:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 6px -4px rgba(24, 29, 38, 0.14);
+}
+
 // ─── Post list (home) ──────────────────────────────────────────────────────
 
 #post-list {
@@ -736,8 +767,19 @@ code {
 }
 
 .post-card:active {
-  transform: translateY(-1px);
-  transition-duration: 120ms;
+  transform: translateY(-1px) scale(0.995);
+  background: var(--card-hover-bg);
+  box-shadow:
+    0 1px 0 rgba(24, 29, 38, 0.04),
+    0 6px 16px -8px rgba(24, 29, 38, 0.10),
+    0 0 0 1px rgba(24, 29, 38, 0.08);
+}
+
+[data-theme='dark'] .post-card:active {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.02),
+    0 8px 22px -8px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.10);
 }
 
 // Subtle zoom on the cover thumb when its parent card is hovered.
@@ -1773,8 +1815,12 @@ code {
   opacity: 0;
   transform: translateY(8px);
   pointer-events: none;
-  transition: opacity var(--motion-base) var(--ease-out-soft),
-    transform var(--motion-base) var(--ease-out-soft);
+  transition:
+    opacity var(--motion-base) var(--ease-out-soft),
+    transform 280ms var(--ease-out-soft),
+    box-shadow 320ms var(--ease-out-soft),
+    background-color 280ms var(--ease-out-soft),
+    border-color 280ms var(--ease-out-soft);
   z-index: 35;
   box-shadow: var(--card-shadow);
 }
@@ -1783,6 +1829,18 @@ code {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+.back-to-top.is-visible:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.back-to-top.is-visible:active {
+  transform: translateY(0) scale(0.94);
+  box-shadow:
+    inset 0 2px 6px rgba(13, 18, 24, 0.15),
+    var(--card-shadow);
 }
 
 // ─── Reveal on scroll ──────────────────────────────────────────────────────
